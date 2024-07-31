@@ -1,7 +1,8 @@
+# define the name of the GitHub Actions workflow and what Git event will trigger it:
 name: Python package
-
 on: [push]
 
+# list the jobs you want to execute as part of the workflow, as well as their configuration: 
 jobs:
   build:
 
@@ -10,7 +11,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.9", "3.10"]
-
+    # define the steps that execute as part of the job. Each step is separated by a hyphen and is executed as a separate command
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
