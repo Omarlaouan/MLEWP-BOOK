@@ -20,6 +20,10 @@ def test_dataset() -> Union[np.array, np.array]:
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
     return X_test, y_test
 
+<<<<<<< Updated upstream
+=======
+### Retrieve the stored model using the Hugging Face Hub package  (if the repo is not public, we can use GitHub Secrets store.gi)
+>>>>>>> Stashed changes
 @pytest.fixture
 def model() -> sklearn.ensemble._forest.RandomForestClassifier:
     REPO_ID = "electricweegie/mlewp-sklearn-wine"
