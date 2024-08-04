@@ -1,0 +1,29 @@
+# Trigger a trainign process upon a pull request:
+name: Continuous Training Example
+on: [pull request]
+
+# Steps for pushing the training script to AWS: 
+jobs:
+  deploy-trainer
+    runs-on : [ununtu-latest]
+
+    # Need to load AWS credentials as Github Secrets
+    steps:
+      - name: Checkout       uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
+          role-duration-seconds: 1200
+          role-session-name: TrainingSession
+      # copy repository files to a target S3 destination (for example if they contain modules that the main training script needs to run)
+      - name : Copy files to target destination
+      run: aws s3 sync . s3://<S3-BUCKET-NAME>
+      # Run a process that uses these files to perform the training
+      - name: Run training job
+      run: |
+      # Run commands go in here (eg python, docker, tensorflow, pytorch, etc)
